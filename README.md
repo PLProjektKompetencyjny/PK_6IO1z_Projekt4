@@ -1,5 +1,7 @@
 # PK_6IO1z_Projekt4
 
+![image](/Pictures/App_model.png)
+
 # Osobne repo per moduł/komponent, 
 ## [Front (UI):](https://github.com/PLProjektKompetencyjny/PK_6IO1z_Projekt4_Frontend) 
   - dynamiczna (strzały do back’u - ajax), 
