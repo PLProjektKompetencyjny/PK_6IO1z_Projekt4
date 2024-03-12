@@ -22,8 +22,8 @@
   - Three.js (360), 
 
 ## [Back:](https://github.com/PLProjektKompetencyjny/PK_6IO1z_Projekt4_Backend) 
-  - [Baza – MSSQL](https://github.com/PLProjektKompetencyjny/PK_6IO1z_Projekt4_DataBase), 
-  - Język główny – Python -> finalnie wybrać framework, 
+  - [Baza – PostgreSQL](https://github.com/PLProjektKompetencyjny/PK_6IO1z_Projekt4_DataBase), 
+  - Język główny – Python -> Flask, 
   - DevOps (CI/CD) – GitHub (Actions), 
   - Code first nie schema first, 
   - Docker – Linux (Ubuntu), 
