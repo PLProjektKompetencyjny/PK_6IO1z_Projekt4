@@ -1,55 +1,51 @@
-# PK_6IO1z_Projekt4
+# TravelNest
 
-![image](/Pictures/App_model.png)
+Kompletny system do rezerwacji pokoi hotelowych. Składa się z 3 komponentów:
 
-# Osobne repo per moduł/komponent, 
-## [Front (UI):](https://github.com/PLProjektKompetencyjny/PK_6IO1z_Projekt4_Frontend) 
-  - dynamiczna (strzały do back’u - ajax), 
-  - robots.txt, 
-  - Angular: 
-    - Material design, 
-    - Devextreme, 
-  - Bootstrap, 
-  - SCSS, 
-  - Svelte (zamiast Angular): 
-  - Material UI,  
-  - Asety (przez AI): 
-    - Zdjęcia, 
-    - Ikonki, 
-    - Logo, 
-  - Testy: 
-    - Jeśli wybierzemy Svelte – ViTest, 
-    - Jeśli wybierzemy Angular – Jest, 
-  - Template z dribbble.com, 
-  - Three.js (360), 
+- Frontend - Angular
+- Backend - Python (Flask)
+- Database - PostgreSQL
 
-## [Back:](https://github.com/PLProjektKompetencyjny/PK_6IO1z_Projekt4_Backend) 
-  - [Baza – PostgreSQL](https://github.com/PLProjektKompetencyjny/PK_6IO1z_Projekt4_DataBase), 
-  - Język główny – Python -> Flask, 
-  - DevOps (CI/CD) – GitHub (Actions), 
-  - Code first nie schema first, 
-  - Docker – Linux (Ubuntu), 
-  - Mailing (do raportów, faktur), 
-  - Generowanie faktur (szablon, uzupełnianie danych), 
-  - CDN, 
-  - API  – REST/CQRS 
-## Funkcjonalności:  
-  - Strona główna:  
-    - Wirtualny spacer: 
-    - Street view, 
-  - Rezerwacja: 
-    - Wybór pokoju, 
-    - API 
-  - Panel użytkownika (widok swojego konta/profilu): 
-    - Historia rezerwacji, 
-  - Panel administratora: 
-    - Zarządzanie: 
-      - Użytkownikami, 
-      - Rezerwacjami,  
-    - Generowanie: 
-      - Faktur, 
-      - Raportów/statystyki, 
-    - Status aplikacji (real time), 
-  - Logowanie, 
-  - Rejestracja,  
-  - Płatności (Stripe), 
+# Spis treści
+
+1. [Wymagania](#1-wymagania)
+2. [Uruchomienie z użyciem skryptu](#2-uruchomienie-z-użyciem-skryptu)
+3. [Uruchomienie z wykorzystaniem komend](#3-uruchomienie-z-wykorzystaniem-komend)
+
+## 1. Wymagania
+
+- Docker Compose
+
+## 2. Uruchomienie z użyciem skryptu
+
+1.  Dodać uprawnienia do wykonywania do pliku `start.sh`
+
+        sudo chmod +x ./start.sh
+
+2.  Uruchomić skrypt
+
+        ./start.sh
+
+3.  `Remove persistent data? [y/n]` <- odpowiada za usuwanie danych bazy SQL.
+    Pytanie pojawi się tylko w przypadku gdy katalog danych aplikacji już istnieje
+
+    - `y` <- usuwa całą zawartość bazy danych.
+    - `n` <- dane nie zostaną usunięte, a baza danych zostanie uruchomiona bez pełnej inicjalizacji, z zachowaniem starej zawarości.
+
+## 3. Uruchomienie z wykorzystaniem komend
+
+1.  Zatrzymanie obecnie działającego projektu
+
+        docker compose down
+
+2.  Zbudowanie obrazów kontenerów z repozytoriów GitHub
+
+        docker compose build
+
+3.  Uruchomienie projektu
+
+        docker compose up -d --force-recreate
+
+4.  (opcjonalnie) Przed uruchomieniem projektu można usunąć katalog z danymi bazy SQL.
+
+        sudo rm -fr ./APP_DATA
