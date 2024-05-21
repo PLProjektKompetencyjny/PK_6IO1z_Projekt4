@@ -1,0 +1,90 @@
+version: "3"
+
+networks:
+  Internal:
+    name: LAN
+    ipam:
+      driver: default
+      config:
+        - subnet: "10.0.0.0/24"
+
+  External:
+    name: WAN
+    external: true
+    driver: bridge
+
+services:
+  Frontend:
+    build: ${FRONTEND_REPO_URL}
+    image: ${FRONTEND_IMAGE_NAME}
+    container_name: ${FRONTEND_CONTAINER_NAME}
+    depends_on:
+      Backend:
+        condition: service_healthy
+    hostname: ${FRONTEND_HOSTNAME}
+    restart: ${RESTART_POLICY}
+    ports:
+      - ${FRONTEND_EXTERNAL_PORT}:${FRONTEND_INTERNAL_PORT}
+    networks:
+      - Internal
+      - External
+    healthcheck:
+      test: ["CMD", "service", "nginx", "status"]
+      start_period: 1s
+      interval: 5s
+      timeout: 2s
+      retries: 10
+
+  Backend:
+    build: ${BACKEND_REPO_URL}
+    image: ${BACKEND_IMAGE_NAME}
+    container_name: ${BACKEND_CONTAINER_NAME}
+    depends_on:
+      Database:
+        condition: service_healthy
+    hostname: ${BACKEND_HOSTNAME}
+    restart: ${RESTART_POLICY}
+    ports:
+      - ${BACKEND_EXTERNAL_PORT}:${BACKEND_INTERNAL_PORT}
+    networks:
+      - Internal
+      - External
+    healthcheck:
+      test: ["CMD", "ps", "-p", "1"]
+      start_period: 2s
+      interval: 5s
+      timeout: 2s
+      retries: 10
+    environment:
+      ENVIRONMENT: ${ENVIRONMENT}
+      TZ: ${TIMEZONE}
+      DB_Address: ${DATABASE_CONTAINER_NAME}
+      DB_Port: ${DATABASE_INTERNAL_PORT}
+      DB_Name: ${DATABASE_DB_NAME}
+      DB_Username: ${BACKEND_DB_USER}
+      DB_Password: ${BACKEND_DB_PASSWORD}
+
+  Database:
+    build: ${DATABASE_REPO_URL}
+    image: ${DATABASE_IMAGE_NAME}
+    container_name: ${DATABASE_CONTAINER_NAME}
+    hostname: ${DATABASE_HOSTNAME}
+    restart: ${RESTART_POLICY}
+    ports:
+      - ${DATABASE_EXTERNAL_PORT}:${DATABASE_INTERNAL_PORT}
+    networks:
+      - Internal
+      - External
+    volumes:
+      - ${HOST_PERSISTENT_DATA_PATH}/${DATABASE_PERSISTENT_DATA_DIR_NAME}:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      start_period: 2s
+      interval: 5s
+      timeout: 2s
+      retries: 10
+    environment:
+      TZ: ${TIMEZONE}
+      POSTGRES_DB: ${DATABASE_DB_NAME}
+      POSTGRES_PASSWORD: ${DATABASE_DB_SA_USER}
+      POSTGRES_USER: ${DATABASE_DB_SA_PASSWORD}
