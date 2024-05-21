@@ -18,6 +18,9 @@ services:
     build: ${FRONTEND_REPO_URL}
     image: ${FRONTEND_IMAGE_NAME}
     container_name: ${FRONTEND_CONTAINER_NAME}
+    depends_on:
+      Backend:
+        condition: service_healthy
     hostname: ${FRONTEND_HOSTNAME}
     restart: ${RESTART_POLICY}
     ports:
@@ -36,6 +39,9 @@ services:
     build: ${BACKEND_REPO_URL}
     image: ${BACKEND_IMAGE_NAME}
     container_name: ${BACKEND_CONTAINER_NAME}
+    depends_on:
+      Database:
+        condition: service_healthy
     hostname: ${BACKEND_HOSTNAME}
     restart: ${RESTART_POLICY}
     ports:
