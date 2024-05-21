@@ -49,11 +49,14 @@ checkDockerDaemonRunning() {
 
 askUserAboutStorageRemoval() {
 
-    response=""
-    while [ "$response" != "y" ] && [ "$response" != "n" ]; do
-        echo "Remove persistent data? [y/n]: \c"
-        read -r response
-    done
+    dirPath=$(getDotenvVariable "HOST_PERSISTENT_DATA_PATH")
+    if [ -d "$dirPath" ]; then
+        response=""
+        while [ "$response" != "y" ] && [ "$response" != "n" ]; do
+            echo "Remove persistent data? [y/n]: \c"
+            read -r response
+        done
+    fi
 }
 
 stopRunningContainers() {
@@ -62,13 +65,12 @@ stopRunningContainers() {
 }
 
 removePersistantStorage() {
+    if [ -d "$dirPath" ]; then
+        if [ "$response" = "y" ]; then
+            printYellowMessage "Removing persistant storage"
 
-    if [ "$response" = "y" ]; then
-        printYellowMessage "Removing persistant storage"
-
-        dirPath=$(getDotenvVariable "HOST_PERSISTENT_DATA_PATH")
-        sudo rm -fr "$dirPath"
-
+            sudo rm -fr "$dirPath"
+        fi
     fi
 }
 
