@@ -1,18 +1,3 @@
-version: "3"
-
-networks:
-  Internal:
-    name: LAN
-    ipam:
-      driver: default
-      config:
-        - subnet: "10.0.0.0/24"
-
-  External:
-    name: WAN
-    external: true
-    driver: bridge
-
 services:
   Frontend:
     build: ${FRONTEND_REPO_URL}
@@ -88,3 +73,18 @@ services:
       POSTGRES_DB: ${DATABASE_DB_NAME}
       POSTGRES_PASSWORD: ${DATABASE_DB_SA_USER}
       POSTGRES_USER: ${DATABASE_DB_SA_PASSWORD}
+
+networks:
+  Internal:
+    name: LAN
+    internal: true
+    ipam:
+      driver: default
+      config:
+        - subnet: "192.168.0.0/29"
+  External:
+    name: WAN
+    ipam:
+      driver: default
+      config:
+        - subnet: "10.0.0.0/24"
