@@ -76,14 +76,14 @@ services:
 
 networks:
   Internal:
-    name: LAN
+    name: LAN-PK-TravelNest
     internal: true
     ipam:
       driver: default
       config:
         - subnet: "192.168.0.0/29"
   External:
-    name: WAN
+    name: WAN-PK-TravelNest
     ipam:
       driver: default
       config:
